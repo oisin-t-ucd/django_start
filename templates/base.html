@@ -8,8 +8,8 @@
   <body>
     <nav>
       <a href="{% url 'home' %}">home</a> <br/>
-      <a href="{% url 'blog_list' %}">blog list</a> <br/>
-      <a href="{% url 'about' %}">about</a> <br/>
+      <a href="{% url 'blog:blog_list' %}">blog list</a> <br/>
+      <a href="{% url 'blog:about' %}">blog about</a> <br/>
     </nav>
 
     <main>{% block content %} {% endblock %}</main>
