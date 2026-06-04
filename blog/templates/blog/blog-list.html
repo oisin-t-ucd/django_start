@@ -4,13 +4,7 @@
 
 {% for post in posts %}
 <section>
-    {{ post.title }}
-    {{ post.author }}
-    {{ post.content }}
-    {{ post.created_on }}
-    {{ post.status }}
-    {{ post.updated_on }}
+    {{ post.title }} {{ post.author }} {{ post.content }} {{ post.created_on }}
+    {{ post.status }} {{ post.updated_on }}
 </section>
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

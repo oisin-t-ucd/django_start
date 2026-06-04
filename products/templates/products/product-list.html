@@ -1,4 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
 <h1>PRODUCT LIST</h1>
-{% endblock %}
+
+{% for product in products %}
+<section>
+    {{ product.title }} {{ product.created_by }} {{ product.description }} {{ product.created_on }}
+    {{ product.price }} {{ product.updated_on }}
+</section>
+{% endfor %} {% endblock %}
