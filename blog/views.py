@@ -4,10 +4,10 @@ from django.shortcuts import render
 def blog_list(request):
     """ A view to return the index page """
 
-    return render(request, 'blog-list.html')
+    return render(request, 'blog/blog-list.html')
 
 
 def about(request):
     """ A view to return the about page """
 
-    return render(request, 'about.html')
+    return render(request, 'blog/about.html')
