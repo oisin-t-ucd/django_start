@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 from .models import Comment, Post
 
@@ -7,7 +8,8 @@ admin.site.register(Comment)
 
 
 # 1. Define the Inline class for the child model
-class CommentInline(admin.TabularInline):  # Alternatively: admin.StackedInline
+class CommentInline(admin.StackedInline):  # Alternatively:
+    # class CommentInline(admin.TabularInline):  # Alternatively: admin.StackedInline
     model = Comment
     extra = 1  # The number of empty forms to display at the bottom
 
@@ -25,6 +27,17 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ["title", "content"]
     # Register the inline here
     inlines = [CommentInline]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        # 1. Target the specific field we want to restrict
+        if db_field.name == "author":
+            # 2. Check if the logged-in user is NOT a superuser
+
+            # 3. Force the dropdown choices to ONLY include the current user
+            kwargs["queryset"] = User.objects.filter(id=request.user.id)
+
+        # Pass the modified arguments back to the parent class method
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     # Automatically populates the slug based on the title (if you add a slug field later)
     # prepopulated_fields = {'slug': ('title',)}
