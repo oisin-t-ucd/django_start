@@ -2,9 +2,36 @@
 
 <h1>PRODUCT LIST</h1>
 
-{% for product in products %}
-<section>
-    {{ product.title }} {{ product.created_by }} {{ product.description }} {{ product.created_on }}
-    {{ product.price }} {{ product.updated_on }}
+<section class="row justify-content-">
+  {% for product in products %}
+  <div class="col-12 col-md-6 col-xl-4">
+    <div class="card">
+      <svg
+        aria-label="Placeholder: Image cap"
+        class="bd-placeholder-img card-img-top"
+        height="180"
+        preserveAspectRatio="xMidYMid slice"
+        role="img"
+        width="100%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Placeholder</title>
+        <rect width="100%" height="100%" fill="#868e96"></rect>
+        <text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
+      </svg>
+      <div class="card-body">
+        <h5 class="card-title">{{ product.title }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <span>
+          Created by:<a href="#" class="">{{ product.created_by }}</a>
+        </span>
+        Price: € {{ product.price }} created_on: {{ product.created_on }}
+        updated_on: {{ product.updated_on }}
+        <a href="#" class="btn btn-primary">Buy</a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
 </section>
-{% endfor %} {% endblock %}
+{% endblock %}

@@ -9,8 +9,7 @@ from .models import Product
 def product_list(request):
     """A view to return the index page"""
     return render(
-        request,
-        "products/product-list.html",  # {"products": Product.objects.all()}
+        request, "products/product-list.html", {"products": Product.objects.all()}
     )
 
 

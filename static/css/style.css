@@ -1,0 +1,14 @@
+/* customize the default bootstrap fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+:root {
+  /* Override the default font family */
+  --bs-body-font-family: "Poppins", sans-serif;
+
+  /* You can also specify a different font for headings */
+  --bs-heading-font-family: "Poppins", sans-serif;
+}
+
+.btn-primary {
+  background-color: antiquewhite;
+}
