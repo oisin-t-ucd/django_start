@@ -5,7 +5,7 @@
 <section class="row ">
 
     {% for post in posts %}
-    
+
     <div class="col-12 col-md-6 col-xl-4">
         <div class="card" style="">
             <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="180"
@@ -25,8 +25,25 @@
                 created_on: {{ post.created_on }}
                 status: {{ post.status }}
                 updated_on: {{ post.updated_on }}
+                <h5 class="card-title">Comments:</h5>
+                <ul class="list-group">
+                    {% for comment in post.comments.all %}
+                    <li class="list-group-item">
+                        {{ comment.author_name }} said:
+                        {{ comment.body }}</p>
+                        <small class="text-muted">Posted on {{ comment.created_on }}</small>
+                    </li>
+
             </div>
+            {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+
+
+            </ul>
+
         </div>
+    </div>
     </div>
     {% endfor %}
 </section>
