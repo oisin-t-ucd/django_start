@@ -5,6 +5,13 @@ from django.utils.text import slugify
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Post(models.Model):
     """
     Stores a single blog post entry related to :model:`auth.User`.
@@ -23,6 +30,7 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return f"Post {self.title} by {self.author}"

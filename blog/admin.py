@@ -21,7 +21,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "status", "created_on")
 
     # Adds a filter sidebar on the right
-    list_filter = ("status", "created_on", "author")
+    list_filter = ("tags", "status", "created_on", "author")
 
     # Adds a search bar at the top (searches these specific fields)
     search_fields = ["title", "content"]
