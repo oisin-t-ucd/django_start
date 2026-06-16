@@ -22,7 +22,8 @@
                 <span>
                     written by:<a href="#" class="">{{ post.author }}</a>
                 </span>
-                created_on: {{ post.created_on }}
+                created_on: {{ post.created_on|date:'dS, F, Y' }}
+
                 status: {{ post.status }}
                 updated_on: {{ post.updated_on }}
                 <h5 class="card-title">Comments:</h5>

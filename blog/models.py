@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.text import slugify
 
 STATUS = ((0, "Draft"), (1, "Published"))
 
@@ -25,6 +26,14 @@ class Post(models.Model):
 
     def __str__(self):
         return f"Post {self.title} by {self.author}"
+
+    def save(self, *args, **kwargs):
+        # Only auto-generate if the slug is empty
+        if not self.slug:
+            self.slug = slugify(self.title)
+
+        # Call the parent class's save method
+        super().save(*args, **kwargs)
 
 
 class Comment(models.Model):
