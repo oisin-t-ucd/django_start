@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from .models import Post
 
 
@@ -11,7 +12,11 @@ def blog_list(request):
     return render(
         request,
         "blog/blog-list.html",
-        {"posts": posts, "custom_message": custom_message, "recent_posts": recent_posts},
+        {
+            "posts": posts,
+            "custom_message": custom_message,
+            "recent_posts": recent_posts,
+        },
     )
 
 
