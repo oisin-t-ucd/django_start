@@ -1,3 +1,5 @@
+from pprint import pprint
+
 # Create your views here.
 from django.contrib import messages  # import for messages
 from django.shortcuts import redirect, render
@@ -8,22 +10,29 @@ from .forms import UserRegisterForm
 #
 
 # 6. Create a register view in views.py and to use the form
+# users/views.py
 
 
 def register(request):
     if request.method == "POST":
-        form = UserRegisterForm(request.POST)
+        print("request.POST:")
+        print(request.POST)
+        form = UserRegisterForm(request.POST)  # ERROR 1 is here
         if form.is_valid():
+            print("FORM IS VALID")
             form.save()
+            print("FORM CLEANED DATA:")
+            pprint(form.data)
             username = form.cleaned_data.get("username")
-            print("username:", username)
             messages.success(request, f"Account created for {username}!")
             return redirect("home")
         else:
-            from pprint import pprint
-
+            print("FORM IS NOT VALID")
+            print("FORM ERRORS:")
             pprint(form.errors)
+            print("FORM DATA:")
+            pprint(form.data)
     else:
-        # this block is only executed for GET requests
         form = UserRegisterForm()
-    return render(request, "users/register.html", {"form": form})
+
+    return render(request, "users/register.html", {"form": form})  # ERROR 3 is here
