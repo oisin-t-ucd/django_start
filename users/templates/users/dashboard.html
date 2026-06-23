@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% load crispy_forms_tags %}
+<!-- Updated here to load crispy forms -->
+{% block content %}
+<h1>{{ user.username }}</h1>
+{% if user.is_authenticated %} Logged in as: {{user.username}} {% else %}
+<h1>You are not logged in!</h1>
+{% endif %} {% endblock content %}
