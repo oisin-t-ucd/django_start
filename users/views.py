@@ -2,23 +2,33 @@ from pprint import pprint
 
 # Create your views here.
 from django.contrib import messages  # import for messages
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required  # Added import here
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required #Added import here
 
 from .forms import UserRegisterForm
 
-#
-#
 
-# 6. Create a register view in views.py and to use the form
-# users/views.py
+class CustomLoginView(SuccessMessageMixin, auth_views.LoginView):
+    success_message = "Successfully logged in!"
+
+    template_name = "users/login.html"
+
+
+class CustomLogoutView(auth_views.LogoutView):
+    template_name = "users/logout.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, "You have been securely logged out.")
+        return super().dispatch(request, *args, **kwargs)
 
 
 def register(request):
     if request.method == "POST":
         print("request.POST:")
         print(request.POST)
-        form = UserRegisterForm(request.POST)  # ERROR 1 is here
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             print("FORM IS VALID")
             form.save()
@@ -26,7 +36,7 @@ def register(request):
             pprint(form.data)
             username = form.cleaned_data.get("username")
             messages.success(request, f"Account created for {username}!")
-            return redirect("login")
+            return redirect("users:login")
         else:
             print("FORM IS NOT VALID")
             print("FORM ERRORS:")
@@ -36,9 +46,18 @@ def register(request):
     else:
         form = UserRegisterForm()
 
-    return render(request, "users/register.html", {"form": form})  # ERROR 3 is here
+    return render(request, "users/register.html", {"form": form})
 
 
-@login_required # Added decorator here
+@login_required
 def profile(request):
     return render(request, "users/profile.html")
+
+
+def dashboard(request):
+    return render(request, "users/dashboard.html")
+
+
+@login_required
+def security_settings(request):
+    return render(request, "users/security_settings.html")
