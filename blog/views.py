@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render
 
 from .models import Post
@@ -24,3 +25,9 @@ def about(request):
     """A view to return the about page"""
 
     return render(request, "blog/about.html")
+
+
+
+@permission_required('blog.add_post', raise_exception=True)
+def create_post(request):
+    return render(request, 'blog/create_post.html')

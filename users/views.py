@@ -3,6 +3,7 @@ from pprint import pprint
 # Create your views here.
 from django.contrib import messages  # import for messages
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required #Added import here
 
 from .forms import UserRegisterForm
 
@@ -25,7 +26,7 @@ def register(request):
             pprint(form.data)
             username = form.cleaned_data.get("username")
             messages.success(request, f"Account created for {username}!")
-            return redirect("home")
+            return redirect("login")
         else:
             print("FORM IS NOT VALID")
             print("FORM ERRORS:")
@@ -36,3 +37,8 @@ def register(request):
         form = UserRegisterForm()
 
     return render(request, "users/register.html", {"form": form})  # ERROR 3 is here
+
+
+@login_required # Added decorator here
+def profile(request):
+    return render(request, "users/profile.html")
