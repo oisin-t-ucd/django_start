@@ -1,11 +1,12 @@
 from pprint import pprint
-from django.contrib.auth.models import User
 
 # Create your views here.
 from django.contrib import messages  # import for messages
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required  # Added import here
+from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import connection, reset_queries
 from django.shortcuts import redirect, render
 
 from .forms import UserRegisterForm
@@ -52,11 +53,21 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "users/profile.html")
+    res = render(request, "users/profile.html")
+    return res
 
 
 def dashboard(request):
-    return render(request, "users/dashboard.html")
+    reset_queries()
+    users = User.objects.select_related("profile").all()
+
+    print(f"BEFORE RENDER QUERIES: {len(connection.queries)}")
+    print(f"users:{len(users)}")
+    res = render(request, "users/dashboard.html", {"users": users})
+    print(f"AFTER RENDER QUERIES: {len(connection.queries)}")
+    if len(connection.queries):
+        pprint(connection.queries)
+    return res
 
 
 @login_required

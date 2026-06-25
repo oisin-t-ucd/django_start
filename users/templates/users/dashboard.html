@@ -2,6 +2,17 @@
 <!-- Updated here to load crispy forms -->
 {% block content %}
 <h1>{{ user.username }}</h1>
-{% if user.is_authenticated %} Logged in as: {{user.username}} {% else %}
+{% for user in users%}
+<h2>
+  NAME:{{user.username}}
+  <br />
+  {% if user.profile.image %}
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="Profile Picture">
+        {% else %}
+            <img class="rounded-circle account-img" src="{{MEDIA_URL}}/default.jpg" alt="Default Profile Picture">
+        {% endif %}
+</h2>
+{% endfor %} {% if user.is_authenticated %} Logged in as: {{user.username}} {%
+else %}
 <h1>You are not logged in!</h1>
 {% endif %} {% endblock content %}

@@ -32,6 +32,9 @@
             <a class="nav-link" href="{% url 'blog:about' %}">blog about</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:dashboard' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'products:product_list' %}">product list</a>
           </li>
           <li class="nav-item">
@@ -54,6 +57,7 @@
             <a class="nav-link" href="{% url 'users:logout' %}">Log Out</a>
             <a class="nav-link" href="{% url 'users:password_change' %}">Change Password</a>
           </li>
+          
           {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'users:login' %}">Login</a>
