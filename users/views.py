@@ -1,4 +1,5 @@
 from pprint import pprint
+from django.contrib.auth.models import User
 
 # Create your views here.
 from django.contrib import messages  # import for messages
@@ -61,3 +62,8 @@ def dashboard(request):
 @login_required
 def security_settings(request):
     return render(request, "users/security_settings.html")
+
+
+def user_list(request):
+    users = User.objects.all()
+    return render(request, "users/user_list.html", {"users": users})

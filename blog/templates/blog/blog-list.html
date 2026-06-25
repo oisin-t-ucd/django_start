@@ -30,7 +30,9 @@
                 <ul class="list-group">
                     {% for comment in post.comments.all %}
                     <li class="list-group-item">
-                        {{ comment.author_name }} said:
+                        
+                    <img class="img-fluid rounded-circle account-img" src="{{ comment.author.profile.image.url }}">
+                        {{ comment.author.username }} said:
                         {{ comment.body }}</p>
                         <small class="text-muted">Posted on {{ comment.created_on }}</small>
                     </li>
