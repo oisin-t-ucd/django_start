@@ -1,0 +1,5 @@
+{% extends "base.html" %} {% load crispy_forms_tags %}
+<!-- Updated here to load crispy forms -->
+{% block content %}
+{{ viewed_user.username }}, {{ viewed_user.profile.image.url }}, and {{ viewed_user.profile.bio }}
+{% endblock content %}

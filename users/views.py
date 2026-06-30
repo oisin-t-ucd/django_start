@@ -2,14 +2,15 @@ from pprint import pprint
 
 # Create your views here.
 from django.contrib import messages  # import for messages
+from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required  # Added import here
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import connection, reset_queries
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ProfileUpdateForm, UserRegisterForm, UserUpdateForm
+from .forms import ContactForm, ProfileUpdateForm, UserRegisterForm, UserUpdateForm
 
 
 class CustomLoginView(SuccessMessageMixin, auth_views.LoginView):
@@ -94,3 +95,55 @@ def security_settings(request):
 def user_list(request):
     users = User.objects.all()
     return render(request, "users/user_list.html", {"users": users})
+
+
+# users/views.py
+
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Print the cleaned data dictionary to the terminal
+            print("Received Contact Data:", form.cleaned_data)
+
+            # Flash success message and redirect (PRG Pattern)
+            messages.success(
+                request, "Thank you for your message! We will get back to you soon."
+            )
+            return redirect("users:contact")  # Assuming 'contact' is the url name
+    else:
+        form = ContactForm()
+
+    return render(request, "users/contact.html", {"form": form})
+
+
+def public_profile(request, username):
+    # This will automatically throw a 404 page if the user doesn't exist
+    viewed_user = get_object_or_404(User, username=username)
+
+    context = {"viewed_user": viewed_user}
+    return render(request, "users/public_profile.html", context)
+
+
+@login_required
+def delete_account(request):
+    print("DELETE ACCOUNT")
+    if request.method == "POST":
+        # Grab the user object
+        user = request.user
+
+        # IMPORTANT: Log the user out BEFORE deleting them to clear the session cookie
+        logout(request)
+
+        # Delete the user (this cascades and deletes their profile too)
+        user.delete()
+
+        messages.info(
+            request,
+            "Your account has been successfully deleted. We're sorry to see you go!",
+        )
+        return redirect("home")  # Redirect to home page
+
+    # If GET request, render the confirmation page
+    return render(request, "users/delete_confirm.html")
