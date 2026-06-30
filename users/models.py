@@ -10,7 +10,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
-
+    
     # Override the built-in save method
     def save(self, *args, **kwargs):
         # 1. Run the default save method first to safely store the file
