@@ -9,7 +9,8 @@ from .models import Post
 
 # Class Based Blog list view:
 class PostListView(ListView):
-    model = Post
+    # model = Post
+    queryset = Post.objects.filter(status=1)
     # use this if you want to use a template with a name other than 'blog/post_list.html'
     # template_name = 'blog/home.html' #<app>/<model>_<viewtype>.html Changed here.
     # context_object_name = 'posts' #Updated here. Now the default name is set equal to 'posts'

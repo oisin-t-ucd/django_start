@@ -12,6 +12,10 @@
 
 📖 **Docs Reference:** [Generic display views: `ListView` and `get_queryset`](https://docs.djangoproject.com/en/5.2/ref/class-based-views/generic-display/#listview)
 
+📖 **Using get_queryset example:** [Dynamic filtering](https://docs.djangoproject.com/en/5.2/topics/class-based-views/generic-display/#dynamic-filtering)
+
+
+
 ---
 
 ## Exercise 2: The Context Expansion (Overriding `get_context_data`)
