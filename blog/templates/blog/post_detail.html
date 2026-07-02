@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<!-- lowercase model name ('post') or 'object' can be used to access the context object for class based views -->
+<h1>{{ object.title }}</h1>
+
+<section class="row ">
+
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card" style="">
+            <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="180"
+                preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em"></text>
+            </svg>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }} </h5>
+                <p class="card-text">
+                    {{ post.content }}
+                </p>
+                <span>
+                    written by:<a href="#" class="">{{ post.author }}</a>
+                </span>
+                created_on: {{ post.created_on|date:'dS, F, Y' }}
+
+                status: {{ post.status }}
+                updated_on: {{ post.updated_on }}
+                <h5 class="card-title">Comments:</h5>
+                <ul class="list-group">
+                    {% for comment in post.comments.all %}
+                    <li class="list-group-item">
+
+                        <img class="img-fluid rounded-circle account-img" src="{{ comment.author.profile.image.url }}">
+                        {{ comment.author.username }} said:
+                        {{ comment.body }}</p>
+                        <small class="text-muted">Posted on {{ comment.created_on }}</small>
+                    </li>
+
+            </div>
+            {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+
+
+            </ul>
+            <a href="{% url 'blog:update_post' pk=post.pk %}">UPDATE POST</a>
+
+        </div>
+    </div>
+    </div>
+
+</section>
+{% endblock %}

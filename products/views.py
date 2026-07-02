@@ -8,8 +8,17 @@ from .models import Product
 # Create your views here.
 def product_list(request):
     """A view to return the index page"""
+    
     return render(
         request, "products/product-list.html", {"products": Product.objects.all()}
+    )
+
+# Create your views here.
+def product_detail(request, pk):
+    """A view to return the index page"""
+    product = Product.objects.get(pk=pk)
+    return render(
+        request, "products/product-list.html", {"product": product}
     )
 
 

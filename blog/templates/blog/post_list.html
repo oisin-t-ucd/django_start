@@ -4,7 +4,11 @@
 
 <section class="row ">
 
-    {% for post in posts %}
+    {% for post in post_list %}
+    {% comment %}
+    <!-- ALTERNATIVE WAY TO LOOP OVER LISTVIEW QUERYSET -->
+    <!-- {% for object in object_list %} -->
+    {% endcomment %}
 
     <div class="col-12 col-md-6 col-xl-4">
         <div class="card" style="">
@@ -41,7 +45,7 @@
             {% empty %}
             <p>No comments yet. Be the first to comment!</p>
             {% endfor %}
-
+            <a href="{% url 'blog:post_detail' pk=post.pk %}">SEE MORE</a>
 
             </ul>
 

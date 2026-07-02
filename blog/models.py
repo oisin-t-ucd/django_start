@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse  # Change here
 from django.utils.text import slugify
 
 STATUS = ((0, "Draft"), (1, "Published"))
@@ -42,6 +43,11 @@ class Post(models.Model):
 
         # Call the parent class's save method
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):  # Change here
+        return reverse(
+            "blog:post_detail", kwargs={"pk": self.pk}
+        )  # Change here to bring the user to the post detail view
 
 
 class Comment(models.Model):
