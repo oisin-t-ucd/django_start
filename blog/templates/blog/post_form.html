@@ -6,12 +6,20 @@
   <form method="POST">
     {% csrf_token %}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Create a Post</legend>
+      <legend class="border-bottom mb-4">
+        <!-- alternative way of determining if it's a create/update view
+         if we don't want to override 'get_context_data' in our view -->
+        {% if object %} "Update a Post" {% else %} "Create a Post" {% endif %}
+
+        <!-- {{ form_title }} -->
+      </legend>
       {{ form|crispy }}
       <!-- Updated to load the form and let crispy take care of the formmating -->
     </fieldset>
     <div class="form-group">
-      <button class="btn btn-outline" type="submit">Create Post</button>
+      <button class="btn btn-outline" type="submit">
+        {{ submit_button_text}}
+      </button>
     </div>
   </form>
 </div>

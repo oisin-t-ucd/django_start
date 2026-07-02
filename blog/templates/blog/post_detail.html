@@ -43,8 +43,11 @@
 
 
             </ul>
-            <a href="{% url 'blog:update_post' pk=post.pk %}">UPDATE POST</a>
+            {% if object.author == user %}
 
+            <a href="{% url 'blog:update_post' pk=post.pk %}">UPDATE POST</a>
+            <a href="{% url 'blog:delete_post' pk=post.pk %}">DELETE POST</a>
+            {% endif %}
         </div>
     </div>
     </div>

@@ -32,6 +32,7 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Post {self.title} by {self.author}"
