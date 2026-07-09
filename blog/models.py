@@ -1,3 +1,5 @@
+from django.utils import timezone
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse  # Change here
@@ -49,6 +51,11 @@ class Post(models.Model):
         return reverse(
             "blog:post_detail", kwargs={"pk": self.pk}
         )  # Change here to bring the user to the post detail view
+
+    def is_new(self):
+        yesterday = timezone.now() - datetime.timedelta(days=1)
+        return self.created_on >= yesterday
+        
 
 
 class Comment(models.Model):

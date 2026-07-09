@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 import dj_database_url
@@ -96,14 +97,22 @@ WSGI_APPLICATION = "django_start.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 if "DATABASE_URL" in os.environ:
-    DATABASES = {
-        "default": dj_database_url.config(
-            # Replace this value with your local database's connection string for local dev
-            default="sqlite:///db.sqlite3",
-            conn_max_age=0,
-            ssl_require=True,  # Neon requires SSL connections
-        )
-    }
+    if "test" in sys.argv:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
+    else:
+        DATABASES = {
+            "default": dj_database_url.config(
+                # Replace this value with your local database's connection string for local dev
+                default="sqlite:///db.sqlite3",
+                conn_max_age=0,
+                ssl_require=True,  # Neon requires SSL connections
+            )
+        }
 else:
     DATABASES = {
         "default": {

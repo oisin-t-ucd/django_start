@@ -129,6 +129,10 @@ Make the script executable:
 chmod a+x build.sh
 ```
 
+run this to ensure staticfiles are collected locally (required for running tests):
+
+`python manage.py collectstatic`
+
 ## Phase 5: Neon & Render Dashboard Configuration
 
 Commit and push all changes to your GitHub repository.

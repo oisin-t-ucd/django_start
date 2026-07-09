@@ -132,18 +132,7 @@ def blog_list(request):
     return res
 
 
-def about(request):
-    """A view to return the about page"""
-    reset_queries()
 
-    print(f"BEFORE RENDER QUERIES: {len(connection.queries)}")
-
-    res = render(request, "blog/about.html")
-    print(f"AFTER RENDER QUERIES: {len(connection.queries)}")
-    if len(connection.queries):
-        pprint(connection.queries)
-
-    return res
 
 
 # @permission_required("blog.add_post", raise_exception=True)
