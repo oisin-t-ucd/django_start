@@ -4,6 +4,8 @@ Deploying a Django application requires bridging the gap between a local develop
 
 This guide covers the end-to-end process of configuring Django to use a Neon database and deploying the application to Render.
 
+### IMPORTANT: This guide assumes you are using Django 5.2 (recommended) - you may face issues if you are using another version. Double check your `requirements.txt` to make sure you're using 5.2 when deploying
+
 ## Phase 1: Preparing the Local Environment
 
 Before pushing to production, we need to swap out development servers and SQLite for production-grade equivalents (Gunicorn and PostgreSQL), and set up static file serving.

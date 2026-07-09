@@ -7,6 +7,20 @@
       class="rounded-circle account-img"
       src="{{ user.profile.image.url }}"
     />
+    <!-- ALTERNATIVE WAY TO LOAD DEFAULT IMAGE: -->
+    {% if "default_tlhti0" in post.image.url %}
+    <img
+      class="rounded-circle account-img"
+      src="https://res.cloudinary.com/rxy26w0x/image/upload/v1783457021/default_tlhti0.jpg"
+    />
+
+    {% else %}
+    <img
+      class="rounded-circle account-img"
+      src="{{ user.profile.image.url }}"
+    />
+
+    {% endif %}
     <h5>About me: {{ user.profile.bio }}</h5>
     <div class="media-body">
       <h2 class="account-heading">{{ user.username }}</h2>
