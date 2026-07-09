@@ -6,7 +6,7 @@ This guide will walk you through integrating **Cloudinary** into your Django pro
 
 1. A Django project already set up.
 2. A free [Cloudinary account](https://cloudinary.com/).
-3. Your **API Environment variable** (This is a single string starting with `cloudinary://...` found right on your Cloudinary Dashboard).
+3. Your **API Environment variable** (This is a single string starting with `cloudinary://...` found right on your Cloudinary Dashboard in "Settings" > "API Keys").
 
 ---
 
@@ -32,8 +32,9 @@ When you use the `CLOUDINARY_URL` environment variable, the Cloudinary SDK autom
 ```python
 INSTALLED_APPS = [
     # ... your other apps ...
-    'cloudinary_storage',         # Must come before staticfiles
     'django.contrib.staticfiles', 
+    # ensure these are below staticfiles:
+    'cloudinary_storage',
     'cloudinary',
     # ...
 ]
@@ -45,8 +46,15 @@ INSTALLED_APPS = [
 ```python
 # settings.py
 
-# Set Cloudinary as the default storage for media files
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Set Cloudinary as the default storage for media files (this is also shown in the render deploy doc)
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+}
 
 ```
 

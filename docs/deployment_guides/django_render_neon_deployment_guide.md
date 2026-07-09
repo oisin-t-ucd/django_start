@@ -92,8 +92,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Enable WhiteNoise's GZip compression and cache-busting
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    # remove this if you're not using cloudinary:
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+}
 ```
+
 
 ## Phase 4: The Build Script
 
@@ -138,5 +147,7 @@ Commit and push all changes to your GitHub repository.
     * `DATABASE_URL`: Paste the connection string you copied from your **Neon dashboard**.
     * `SECRET_KEY`: Generate a random secure string (e.g., using `python3 -c "import secrets; print(secrets.token_urlsafe())"` in your terminal).
     * `PYTHON_VERSION`: `3.10.x` (or match your local development version).
+
+    Note: use `python --version` in your local environment to check your python version
 
 Once saved, Render will automatically trigger a deployment. The `build.sh` script will run, installing dependencies, collecting static files, and migrating your new Neon database before Gunicorn spins up the application.
