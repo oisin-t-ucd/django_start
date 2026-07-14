@@ -21,7 +21,7 @@ Before we write code, ensure you have the required packages installed in your Dj
 
 **Install the packages:**
 ```bash
-pip install django django-crispy-forms crispy-bootstrap5
+pip install django django-crispy-forms crispy-bootstrap5 uvicorn
 ```
 
 **Update `settings.py`:**
@@ -156,7 +156,7 @@ async def sse_unread_count(request):
     """
     Streams the unread message count to the browser in real-time.
     """
-    user = request.user
+    user = await request.auser()
     if not user.is_authenticated:
         return StreamingHttpResponse("Unauthorized", status=401)
 
@@ -167,9 +167,7 @@ async def sse_unread_count(request):
             @sync_to_async
             def get_unread_count():
                 return Message.objects.filter(
-                    recipient=user, 
-                    is_read=False, 
-                    is_archived=False
+                    recipient=user, is_read=False, is_archived=False
                 ).count()
 
             current_count = await get_unread_count()
@@ -183,7 +181,7 @@ async def sse_unread_count(request):
             await asyncio.sleep(3)
 
     response = StreamingHttpResponse(event_stream(), content_type="text/event-stream")
-    response['Cache-Control'] = 'no-cache'
+    response["Cache-Control"] = "no-cache"
     return response
 ```
 
@@ -334,6 +332,10 @@ Using Crispy Forms makes rendering complex forms trivial!
 
 ---
 
+NOTE: You need to run the application with uvicorn to ensure asynchronous code is executed correctly (replace `django_start` with the name of your application):
+
+`uvicorn django_start.asgi:application --reload`
+
 ##  7. Testing the Application
 
 1. Open two different browsers (or one normal window and one Incognito window).
@@ -344,3 +346,5 @@ Using Crispy Forms makes rendering complex forms trivial!
 
 ###  Done!
 You just implemented real-time, asynchronous push updates in Django without configuring Redis, WebSockets, or third-party JavaScript libraries. SSE relies on plain HTTP and the browser's native capabilities!
+
+
