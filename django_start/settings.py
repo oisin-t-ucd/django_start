@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     "cloudinary",
     "crispy_forms",
     "crispy_bootstrap5",
-    "products",
     "blog",
     "home",
     "users",

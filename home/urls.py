@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="home"),
+    # If we want to use a basic template view we don't need to add a view class in views.py:
     path(
         "about/",
         TemplateView.as_view(template_name="home/about.html"),
