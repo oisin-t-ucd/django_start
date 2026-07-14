@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">My Inbox</h4>
+        <a href="{% url 'compose' %}" class="btn btn-sm btn-outline-primary">New Message</a>
+    </div>
+    <div class="list-group list-group-flush">
+        {% for message in messages %}
+            <a href="{% url 'read_message' message.id %}" 
+               class="list-group-item list-group-item-action {% if not message.is_read %}list-group-item-light fw-bold{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ message.subject }}</h5>
+                    <small class="text-muted">{{ message.timestamp|timesince }} ago</small>
+                </div>
+                <p class="mb-1 text-muted">From: {{ message.sender.username }}</p>
+            </a>
+        {% empty %}
+            <div class="p-4 text-center text-muted">
+                Your inbox is empty.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

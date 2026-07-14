@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white border-bottom">
+        <h4 class="mb-0">Compose Message</h4>
+      </div>
+      <div class="card-body">
+        <!-- Crispy Forms handles all the styling, inputs, and errors -->
+        <form method="post">
+          {% csrf_token %} {{ form|crispy }}
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

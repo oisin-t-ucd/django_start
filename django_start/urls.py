@@ -26,6 +26,7 @@ urlpatterns = [
     path("", include("home.urls")),
     path("blog/", include("blog.urls", namespace="blog")),
     path("users/", include("users.urls", namespace="users")),
+    path("user_messages/", include("user_messages.urls")),
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(),

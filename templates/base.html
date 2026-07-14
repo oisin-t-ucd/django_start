@@ -31,6 +31,13 @@
             <a class="nav-link" href="{% url 'users:dashboard' %}">Dashboard</a>
           </li>
           {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inbox' %}">
+              Inbox
+              <!-- REAL-TIME BADGE -->
+              <span id="inbox-badge" class="badge bg-danger rounded-pill" style="display: none;">0</span>
+            </a>
+          </li>
           {% if user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
@@ -45,8 +52,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'blog:create_post' %}">Create Post</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'users:logout' %}">Log Out</a>
+            <form method="post" action="{% url 'users:logout' %}">
+              {% csrf_token %}
+              <button class="nav-link" type="submit">Log Out</button>
+            </form>
+            {# <a class="nav-link" href="{% url 'users:logout' %}">Log Out</a> #}
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'users:password_change' %}">Change Password</a>
@@ -96,6 +108,31 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 1. Connect to the SSE endpoint
+      const eventSource = new EventSource("{% url 'sse_unread_count' %}");
+      const badge = document.getElementById('inbox-badge');
+
+      // 2. Listen for incoming messages from the server
+      eventSource.onmessage = function (event) {
+        const count = parseInt(event.data, 10);
+
+        // 3. Update the UI
+        badge.innerText = count;
+        if (count > 0) {
+          badge.style.display = 'inline-block';
+        } else {
+          badge.style.display = 'none'; // Hide if 0 unread messages
+        }
+      };
+
+      // Handle connection errors gracefully
+      eventSource.onerror = function (err) {
+        console.error("SSE Connection dropped. Browser will auto-reconnect.");
+      };
+    });
+  </script>
 </body>
 
 </html>

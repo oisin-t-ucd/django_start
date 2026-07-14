@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "blog",
     "home",
     "users",
+    "user_messages",
 ]
 
 MIDDLEWARE = [

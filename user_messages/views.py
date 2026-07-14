@@ -14,7 +14,7 @@ from .models import Message
 @login_required
 def inbox_view(request):
     messages = Message.objects.filter(recipient=request.user, is_archived=False)
-    return render(request, "inbox_app/inbox.html", {"messages": messages})
+    return render(request, "user_messages/inbox.html", {"messages": messages})
 
 
 @login_required
@@ -29,7 +29,7 @@ def compose_view(request):
     else:
         form = ComposeMessageForm()
 
-    return render(request, "inbox_app/compose.html", {"form": form})
+    return render(request, "user_messages/compose.html", {"form": form})
 
 
 @login_required
@@ -41,7 +41,7 @@ def read_message_view(request, message_id):
         message.is_read = True
         message.save()
 
-    return render(request, "inbox_app/read.html", {"message": message})
+    return render(request, "user_messages/read.html", {"message": message})
 
 
 # --- REAL-TIME SSE VIEW ---
@@ -51,7 +51,7 @@ async def sse_unread_count(request):
     """
     Streams the unread message count to the browser in real-time.
     """
-    user = request.user
+    user = await request.auser()
     if not user.is_authenticated:
         return StreamingHttpResponse("Unauthorized", status=401)
 
