@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from django.contrib.auth.mixins import (  # Import UserPassesTestMixin here
     LoginRequiredMixin,
 )
@@ -63,7 +61,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pprint(context)
         context["form_title"] = "Create a Post"
         context["submit_button_text"] = "Create Post"
         return context
@@ -88,7 +85,7 @@ class PostDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
     model = Post
     fields = ["title", "content"]
     success_url = reverse_lazy(
-        "users:profiles"
+        "users:profile"
     )  # Here we are redirecting the user back to the homepage after deleting a Post successfully
 
     def delete(self, request, *args, **kwargs):
@@ -130,9 +127,6 @@ def blog_list(request):
     #     pprint(connection.queries)
 
     return res
-
-
-
 
 
 # @permission_required("blog.add_post", raise_exception=True)

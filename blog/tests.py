@@ -140,7 +140,7 @@ class PostViewsTests(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username="testuser", password="12345")
         self.post = Post.objects.create(
-            author=self.user, title="Test Post", content="This is a test post"
+            author=self.user, title="Test Post", content="This is a test post", status=1
         )
 
     def test_post_list_view(self):
@@ -149,18 +149,18 @@ class PostViewsTests(TestCase):
         Simulates a GET request to that URL and checks that the response status is 200 (HTTP OK).
         Checks if the response contains certain text and the correct template is used.
         """
-        url = reverse("blog-home")
+        url = reverse("blog:post_list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "This is a test post")
-        self.assertTemplateUsed(response, "blog/home.html")
+        self.assertContains(response, "Test Post")
+        self.assertTemplateUsed(response, "blog/post_list.html")
 
     def test_post_detail_view(self):
         """
         Tests the view for displaying a single blog post detail.
         Checks the response status and whether the response contains the post's title.
         """
-        url = reverse("post-detail", args=[self.post.id])
+        url = reverse("blog:post_detail", args=[self.post.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.post.title)
@@ -174,13 +174,13 @@ class PostViewsTests(TestCase):
         self.client.login(username="testuser", password="12345")
 
         # Test GET request
-        response = self.client.get(reverse("post-create"))
+        response = self.client.get(reverse("blog:create_post"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog/post_form.html")
 
         # Test POST request
         response = self.client.post(
-            reverse("post-create"),
+            reverse("blog:create_post"),
             {
                 "title": "New title",
                 "content": "New text",
@@ -196,7 +196,7 @@ class PostViewsTests(TestCase):
         Refreshes the test post instance from the database to check if the title has been updated.
         """
         self.client.login(username="testuser", password="12345")
-        url = reverse("post-update", kwargs={"pk": self.post.pk})
+        url = reverse("blog:update_post", kwargs={"pk": self.post.pk})
 
         # Test GET request
         response = self.client.get(url)
@@ -222,7 +222,7 @@ class PostViewsTests(TestCase):
         to perform the deletion, verifying the post no longer exists.
         """
         self.client.login(username="testuser", password="12345")
-        url = reverse("post-delete", kwargs={"pk": self.post.pk})
+        url = reverse("blog:delete_post", kwargs={"pk": self.post.pk})
 
         # Test GET request
         response = self.client.get(url)
