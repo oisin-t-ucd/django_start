@@ -186,7 +186,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = "users:login"
 
-if DEBUG:
+if "DEV_EMAIL" in os.environ:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     DEFAULT_FROM_EMAIL = "test@email.com"
 else:
