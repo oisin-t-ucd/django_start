@@ -16,6 +16,19 @@ UserRegisterForm, UserUpdateForm, ProfileUpdateForm - local forms for handling u
 """
 
 
+class ProfileModelTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="testuser", password="12345")
+        Profile.objects.get_or_create(user=self.user, defaults={"image": "default.png"})
+
+    def test_profile_str_method(self):
+        # Assuming setUp() already created self.user and self.user.profile
+        profile = self.user.profile
+        # Assert that str(profile) matches the expected output
+        expected_string = "testuser Profile"
+        self.assertEqual(str(profile), expected_string)
+
+
 class UserFormsTests(TestCase):
     """
     Defines a new class UserFormsTests which is a subclass of TestCase.

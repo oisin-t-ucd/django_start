@@ -22,6 +22,9 @@ class CustomLoginView(SuccessMessageMixin, auth_views.LoginView):
 class CustomLogoutView(auth_views.LogoutView):
     template_name = "users/logout.html"
 
+    def get(self):
+        return render(self.request, template_name="users/logout.html")
+
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, "You have been securely logged out.")
         return super().dispatch(request, *args, **kwargs)
