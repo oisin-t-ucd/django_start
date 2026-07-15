@@ -46,7 +46,6 @@ pip freeze > requirements.txt
 Open your `settings.py` file and update your configuration to use the Anymail backend.
 
 ```python
-import os
 
 # Add 'anymail' to your installed apps
 INSTALLED_APPS = [
